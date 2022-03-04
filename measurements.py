@@ -1,6 +1,8 @@
-from flask import Flask, jsonify, request
 from http import HTTPStatus
 from uuid import uuid4
+
+from flask import Flask, jsonify, request
+
 
 measurment_storage = {
     "e7b3d405ac9a45758109f3daee0adfae": {
@@ -21,14 +23,12 @@ measurment_storage = {
     },
 }
 
-
 app = Flask(__name__)
+
 
 @app.get('/api/measurements/')
 def get_measurements():
-    measurements = [
-        measurment for _, measurment in measurment_storage.items()
-    ]
+    measurements = [measurment for _, measurment in measurment_storage.items()]
     return jsonify(measurements)
 
 
@@ -52,10 +52,7 @@ def add_measurement():
 def update_measurement(uid):
     if uid not in measurment_storage:
         return {"message": "measurment not found"}, HTTPStatus.NOT_FOUND
-
     measurment = request.json
-    # TODO: validation skipped
-
     measurment_storage[uid] = measurment
     return measurment, HTTPStatus.OK
 
@@ -68,3 +65,5 @@ def delete_measurement(uid):
     return {}, HTTPStatus.NO_CONTENT
 
 
+if __name__ == '__main__':
+      app.run(host='0.0.0.0', port=8080)
