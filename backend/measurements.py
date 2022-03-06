@@ -1,7 +1,7 @@
 from http import HTTPStatus
 from uuid import uuid4
 
-from flask import Flask, jsonify, request
+from flask import Blueprint, jsonify, request
 
 
 measurement_storage = {
@@ -23,16 +23,16 @@ measurement_storage = {
     },
 }
 
-app = Flask(__name__)
+measure = Blueprint('measure', __name__)
 
 
-@app.get('/api/v1/measurements/')
+@measure.get('/')
 def get_measurements():
     measurements = [measurment for _, measurment in measurement_storage.items()]
     return jsonify(measurements)
 
 
-@app.get('/api/v1/measurements/<uid>')
+@measure.get('/<uid>')
 def get_by_id(uid):
     measurment = measurement_storage.get(uid)
     if not measurment:
@@ -40,7 +40,7 @@ def get_by_id(uid):
     return measurment
 
 
-@app.post('/api/v1/measurements/')
+@measure.post('/')
 def add_measurement():
     measurement = request.json
     measurement['uid'] = uuid4().hex
@@ -48,7 +48,7 @@ def add_measurement():
     return measurement, HTTPStatus.CREATED
 
 
-@app.put('/api/v1/measurements/<uid>')
+@measure.put('/<uid>')
 def update_measurement(uid):
     if uid not in measurement_storage:
         return {"message": "measurment not found"}, HTTPStatus.NOT_FOUND
@@ -57,13 +57,9 @@ def update_measurement(uid):
     return measurment, HTTPStatus.OK
 
 
-@app.delete('/api/v1/measurements/<uid>')
+@measure.delete('/<uid>')
 def delete_measurement(uid):
     if uid not in measurement_storage:
         return {"message": "measurment not found"}, HTTPStatus.NOT_FOUND
     measurement_storage.pop(uid)
     return {}, HTTPStatus.NO_CONTENT
-
-
-if __name__ == '__main__':
-      app.run(host='0.0.0.0', port=8080)
