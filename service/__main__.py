@@ -1,7 +1,10 @@
+import logging
+
 from flask import Flask
 
-from measurements import measure
+from service.measurements import measure
 
+logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 
 if __name__ == '__main__':
