@@ -21,12 +21,12 @@ def get_measurements():
 
 @measure.get('/<uid>')
 def get_by_id(uid):
-    measurement = Measurements.query.filter_by(id=uid)
+    measurement = Measurements.query.filter_by(id=uid).first()
     logging.debug(uid)
     logging.debug(measurement)
-    if not list(measurement):
+    if not measurement:
         return {'message': 'measurment not found'}, HTTPStatus.NOT_FOUND
-    return measurement[0].as_dict()
+    return measurement.as_dict()
 
 
 @measure.post('/')
@@ -46,17 +46,17 @@ def add_measurement():
 
 @measure.put('/<uid>')
 def update_measurement(uid):
-    measurement = Measurements.query.filter_by(id=uid)
-    if not list(measurement):
+    measurement = Measurements.query.filter_by(id=uid).first()
+    if not measurement:
         return {"message": "measurment not found"}, HTTPStatus.NOT_FOUND
     changes = request.json
-    logging.debug(measurement[0].as_dict())
+    logging.debug(measurement.as_dict())
     logging.debug(changes['name'])
-    measurement[0].name = changes['name']
-    measurement[0].status = changes['status']
-    measurement[0].description = changes['status']
-    measurement[0].measure_time = changes['measure_time']
-    measurement[0].test_id = changes['test_id']
+    measurement.name = changes['name']
+    measurement.status = changes['status']
+    measurement.description = changes['status']
+    measurement.measure_time = changes['measure_time']
+    measurement.test_id = changes['test_id']
     db_session.commit()
     return changes, HTTPStatus.OK
 
