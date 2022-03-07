@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "PDF-Parser-Backend"
+version = "0.1.0"
+description = ""
+authors = ["RomanZorkin <zorkin.roman@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Flask = "^2.0.3"
+SQLAlchemy = "^1.4.32"
+
+[tool.poetry.dev-dependencies]
+# fix bandit 1.7.3-4 errors
+bandit = "1.7.2"
+mypy = "^0.931"
+wemake-python-styleguide = "^0.16.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
