@@ -6,6 +6,8 @@ authors = ["RomanZorkin <zorkin.roman@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+Flask = "^2.0.3"
+SQLAlchemy = "^1.4.32"
 
 [tool.poetry.dev-dependencies]
 # fix bandit 1.7.3-4 errors
