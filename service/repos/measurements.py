@@ -1,5 +1,5 @@
-from datetime import datetime
 import logging
+from datetime import datetime
 from typing import Union
 
 from service.db import db_session
@@ -9,12 +9,12 @@ from service.models import Measurements
 class MeasurementsRepo:
 
     def add(
-            self,
-            name: str,
-            status: str,
-            description: str,
-            measure_time: datetime,
-            test_id: int,
+        self,
+        name: str,
+        status: str,
+        description: str,
+        measure_time: datetime,
+        test_id: int,
     ) -> Measurements:
         measure: Measurements = Measurements(
             name=name,
@@ -28,13 +28,13 @@ class MeasurementsRepo:
         return measure
 
     def update(
-            self,
-            uid: int,
-            name: str,
-            status: str,
-            description: str,
-            measure_time: datetime,
-            test_id: int,
+        self,
+        uid: int,
+        name: str,
+        status: str,
+        description: str,
+        measure_time: datetime,
+        test_id: int,
     ) -> Union[Measurements, bool]:
         measure: Measurements = Measurements.query.filter_by(id=uid).first()
         if not measure:
