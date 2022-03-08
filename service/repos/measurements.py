@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime
-from typing import Union
+from typing import Any, Optional
 
 from service.db import db_session
 from service.models import Measurements
@@ -35,10 +35,10 @@ class MeasurementsRepo:
         description: str,
         measure_time: datetime,
         test_id: int,
-    ) -> Union[Measurements, bool]:
+    ) -> Optional[Measurements]:
         measure: Measurements = Measurements.query.filter_by(id=uid).first()
         if not measure:
-            return False
+            return None
         measure.name = name
         measure.status = status
         measure.description = description
@@ -47,16 +47,16 @@ class MeasurementsRepo:
         db_session.commit()
         return measure
 
-    def get_all(self) -> list:
+    def get_all(self) -> list[Measurements]:
         query_measure = Measurements.query.all()
         measurement = [row.as_dict() for row in query_measure]
         logging.debug(measurement)
         return measurement
 
-    def get_by_uid(self, uid: int) -> Union[dict, bool]:
+    def get_by_uid(self, uid: int) -> Optional[dict[str, Any]]:
         measure: Measurements = Measurements.query.filter_by(id=uid).first()
         if not measure:
-            return False
+            return None
         return measure.as_dict()
 
     def delete(self, uid: int) -> bool:
