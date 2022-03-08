@@ -4,10 +4,10 @@ from flask import Blueprint, jsonify, request
 
 from service.repos.measurements import MeasurementsRepo
 
-
 measure = Blueprint('measure', __name__)
 
 repo = MeasurementsRepo()
+
 
 @measure.get('/')
 def get_measurements():
@@ -30,7 +30,7 @@ def add_measurement():
         status=measurement['status'],
         description=measurement['description'],
         measure_time=measurement['measure_time'],
-        test_id=measurement['test_id']
+        test_id=measurement['test_id'],
     )
     return measurement, HTTPStatus.CREATED
 
@@ -48,11 +48,11 @@ def update_measurement(uid: int):
     )
     if measure_update:
         return changes, HTTPStatus.OK
-    return {"message": "measurment not found"}, HTTPStatus.NOT_FOUND
+    return {'message': 'measurment not found'}, HTTPStatus.NOT_FOUND
 
 
 @measure.delete('/<uid>')
 def delete_measurement(uid: int):
     if repo.delete(uid):
         return {}, HTTPStatus.NO_CONTENT
-    return {"message": "measurment not found"}, HTTPStatus.NOT_FOUND
+    return {'message': 'measurment not found'}, HTTPStatus.NOT_FOUND
