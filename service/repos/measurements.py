@@ -49,9 +49,8 @@ class MeasurementsRepo:
 
     def get_all(self) -> list[Measurements]:
         query_measure = Measurements.query.all()
-        measurement = [row.as_dict() for row in query_measure]
-        logging.debug(measurement)
-        return measurement
+        measurements = [row.as_dict() for row in query_measure]
+        return measurements
 
     def get_by_uid(self, uid: int) -> Optional[Measurements]:
         measure: Measurements = Measurements.query.filter_by(id=uid).first()
