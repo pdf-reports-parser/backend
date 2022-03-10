@@ -19,7 +19,7 @@ def get_by_id(uid: int):
     measurement: dict = repo.get_by_uid(uid)
     if not measurement:
         return {'message': 'measurment not found'}, HTTPStatus.NOT_FOUND
-    return measurement
+    return measurement.as_dict()
 
 @measure.post('/')
 def add_measurement():

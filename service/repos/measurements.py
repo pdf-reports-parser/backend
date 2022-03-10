@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime
-from typing import Any, Optional
+from typing import Optional
 
 from service.db import db_session
 from service.models import Measurements
@@ -53,11 +53,11 @@ class MeasurementsRepo:
         logging.debug(measurement)
         return measurement
 
-    def get_by_uid(self, uid: int) -> Optional[dict[str, Any]]:
+    def get_by_uid(self, uid: int) -> Optional[Measurements]:
         measure: Measurements = Measurements.query.filter_by(id=uid).first()
         if not measure:
             return None
-        return measure.as_dict()
+        return measure
 
     def delete(self, uid: int) -> bool:
         measure = Measurements.query.filter_by(id=uid).first()
