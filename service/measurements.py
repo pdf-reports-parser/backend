@@ -1,72 +1,57 @@
-from datetime import datetime
 from http import HTTPStatus
-import logging
 
 from flask import Blueprint, jsonify, request
 
-from service.db import db_session
-from service.models import Measurements
-from service.settings import TIME_FORMAT
+from service.repos.measurements import MeasurementsRepo
 
 measure = Blueprint('measure', __name__)
+
+repo = MeasurementsRepo()
 
 
 @measure.get('/')
 def get_measurements():
-    query_measure = Measurements.query.all()
-    measurement = [row.as_dict() for row in query_measure]
-    logging.debug(measurement)
-    return jsonify(measurement)
+    return jsonify(repo.get_all())
 
 
 @measure.get('/<uid>')
-def get_by_id(uid):
-    measurement = Measurements.query.filter_by(id=uid).first()
-    logging.debug(uid)
-    logging.debug(measurement)
+def get_by_id(uid: int):
+    measurement: dict = repo.get_by_uid(uid)
     if not measurement:
         return {'message': 'measurment not found'}, HTTPStatus.NOT_FOUND
     return measurement.as_dict()
 
-
 @measure.post('/')
 def add_measurement():
     measurement = request.json
-    input_measure = Measurements(
+    repo.add(
         name=measurement['name'],
         status=measurement['status'],
         description=measurement['description'],
-        measure_time=datetime.strptime(measurement['measure_time'], TIME_FORMAT),
+        measure_time=measurement['measure_time'],
         test_id=measurement['test_id'],
     )
-    db_session.add(input_measure)
-    db_session.commit()
     return measurement, HTTPStatus.CREATED
 
 
 @measure.put('/<uid>')
-def update_measurement(uid):
-    measurement = Measurements.query.filter_by(id=uid).first()
-    if not measurement:
-        return {"message": "measurment not found"}, HTTPStatus.NOT_FOUND
+def update_measurement(uid: int):
     changes = request.json
-    logging.debug(measurement.as_dict())
-    logging.debug(changes['name'])
-    measurement.name = changes['name']
-    measurement.status = changes['status']
-    measurement.description = changes['status']
-    measurement.measure_time = changes['measure_time']
-    measurement.test_id = changes['test_id']
-    db_session.commit()
-    return changes, HTTPStatus.OK
+    measure_update = repo.update(
+        uid=uid,
+        name=changes['name'],
+        status=changes['status'],
+        description=changes['description'],
+        measure_time=changes['measure_time'],
+        test_id=changes['test_id'],
+    )
+    if measure_update:
+        return changes, HTTPStatus.OK
+    return {'message': 'measurment not found'}, HTTPStatus.NOT_FOUND
 
 
 @measure.delete('/<uid>')
-def delete_measurement(uid):
-    measurement = Measurements.query.filter_by(id=uid)
-    if not list(measurement):
-        return {"message": "measurment not found"}, HTTPStatus.NOT_FOUND
-    logging.debug(measurement[0].as_dict())
-    measurement.delete()
-    db_session.commit()
-    return {}, HTTPStatus.NO_CONTENT
+def delete_measurement(uid: int):
+    if repo.delete(uid):
+        return {}, HTTPStatus.NO_CONTENT
+    return {'message': 'measurment not found'}, HTTPStatus.NOT_FOUND
