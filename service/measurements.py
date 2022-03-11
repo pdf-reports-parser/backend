@@ -36,18 +36,18 @@ def add_measurement():
 
 @measure.put('/<uid>')
 def update_measurement(uid: int):
-    changes = request.json
-    measure_update = repo.update(
-        uid=uid,
-        name=changes['name'],
-        status=changes['status'],
-        description=changes['description'],
-        measure_time=changes['measure_time'],
-        test_id=changes['test_id'],
-    )
-    if measure_update:
-        return changes, HTTPStatus.OK
-    return {'message': 'measurment not found'}, HTTPStatus.NOT_FOUND
+    payload = request.json
+    payload['uid'] = uid
+
+    measurement = schemas.Measurement(**payload)
+    entity = repo.update(**measurement.dict())
+
+    if not entity:
+        return {'message': 'measurment not found'}, HTTPStatus.NOT_FOUND
+
+    fresh_measurement = schemas.Measurement.from_orm(entity)
+    return fresh_measurement.dict(), HTTPStatus.OK
+
 
 
 @measure.delete('/<uid>')
