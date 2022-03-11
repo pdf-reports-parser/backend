@@ -2,8 +2,8 @@ import logging
 
 from flask import Flask
 
-from service.measurements import measure
 from service import settings
+from service.measurements import measure
 
 logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)

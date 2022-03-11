@@ -1,4 +1,3 @@
-import logging
 from http import HTTPStatus
 
 from flask import Blueprint, jsonify, request
@@ -24,7 +23,8 @@ def get_by_id(uid: int):
     if not entity:
         return {'message': 'measurment not found'}, HTTPStatus.NOT_FOUND
     measurement = schemas.Measurement.from_orm(entity).dict()
-    return measurement
+    return measurement  # noqa: WPS331 for clear perception
+
 
 @measure.post('/')
 def add_measurement():
@@ -47,7 +47,6 @@ def update_measurement(uid: int):
 
     fresh_measurement = schemas.Measurement.from_orm(entity)
     return fresh_measurement.dict(), HTTPStatus.OK
-
 
 
 @measure.delete('/<uid>')
