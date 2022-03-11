@@ -2,6 +2,7 @@ from http import HTTPStatus
 
 from flask import Blueprint, jsonify, request
 
+from service import schemas
 from service.repos.measurements import MeasurementsRepo
 
 measure = Blueprint('measure', __name__)
@@ -11,15 +12,18 @@ repo = MeasurementsRepo()
 
 @measure.get('/')
 def get_measurements():
-    return jsonify(repo.get_all())
+    entities = repo.get_all()
+    measurements = [schemas.Measurement.from_orm(entity).dict() for entity in entities]
+    return jsonify(measurements), HTTPStatus.OK
 
 
 @measure.get('/<uid>')
 def get_by_id(uid: int):
-    measurement: dict = repo.get_by_uid(uid)
-    if not measurement:
+    entity = repo.get_by_uid(uid)
+    if not entity:
         return {'message': 'measurment not found'}, HTTPStatus.NOT_FOUND
-    return measurement.as_dict()
+    measurement = schemas.Measurement.from_orm(entity).dict()
+    return measurement
 
 @measure.post('/')
 def add_measurement():
