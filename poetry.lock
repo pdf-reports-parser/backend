@@ -624,7 +624,7 @@ watchdog = ["watchdog"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "eb7fc1d7a75ec15a3dfe418b445c0d583878b4f00a0566591aa174a550da91bf"
+content-hash = "ce51e8002f8724a4a8b10d9d50fefb73aa35175ca24196d7cbfc09bc1089cb77"
 
 [metadata.files]
 astor = [

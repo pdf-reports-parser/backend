@@ -1,4 +1,3 @@
-import logging
 from datetime import datetime
 from typing import Optional
 
@@ -36,7 +35,7 @@ class MeasurementsRepo:
         measure_time: datetime,
         test_id: int,
     ) -> Optional[Measurements]:
-        measure: Measurements = Measurements.query.filter_by(id=uid).first()
+        measure: Measurements = Measurements.query.filter_by(uid=uid).first()
         if not measure:
             return None
         measure.name = name
@@ -47,19 +46,17 @@ class MeasurementsRepo:
         db_session.commit()
         return measure
 
-    def get_all(self) -> list[Measurements]:
-        query_measure = Measurements.query.all()
-        measurements = [row.as_dict() for row in query_measure]
-        return measurements
+    def get_all(self) -> Measurements:
+        return Measurements.query.all()
 
     def get_by_uid(self, uid: int) -> Optional[Measurements]:
-        measure: Measurements = Measurements.query.filter_by(id=uid).first()
+        measure: Measurements = Measurements.query.filter_by(uid=uid).first()
         if not measure:
             return None
         return measure
 
     def delete(self, uid: int) -> bool:
-        measure = Measurements.query.filter_by(id=uid).first()
+        measure = Measurements.query.filter_by(uid=uid).first()
         if not measure:
             return False
         db_session.delete(measure)
