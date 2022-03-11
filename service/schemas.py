@@ -4,7 +4,7 @@ from pydantic import BaseModel, constr
 
 
 class Measurement(BaseModel):
-    uid: int = None
+    uid: int
     name: constr(min_length=1)
     status: constr(min_length=1)
     description: constr(min_length=1)

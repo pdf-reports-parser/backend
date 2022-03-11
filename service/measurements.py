@@ -28,7 +28,9 @@ def get_by_id(uid: int):
 
 @measure.post('/')
 def add_measurement():
-    measurement = schemas.Measurement(**request.json)
+    payload = request.json
+    payload['uid'] = -1
+    measurement = schemas.Measurement(**payload)
     entity = repo.add(
         name=measurement.name,
         status=measurement.status,
