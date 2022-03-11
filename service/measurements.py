@@ -22,14 +22,20 @@ def get_by_id(uid: int):
     entity = repo.get_by_uid(uid)
     if not entity:
         return {'message': 'measurment not found'}, HTTPStatus.NOT_FOUND
-    measurement = schemas.Measurement.from_orm(entity).dict()
-    return measurement  # noqa: WPS331 for clear perception
+    measurement = schemas.Measurement.from_orm(entity)
+    return measurement.dict(), HTTPStatus.OK
 
 
 @measure.post('/')
 def add_measurement():
     measurement = schemas.Measurement(**request.json)
-    entity = repo.add(**measurement.dict())
+    entity = repo.add(
+        name=measurement.name,
+        status=measurement.status,
+        description=measurement.description,
+        measure_time=measurement.measure_time,
+        test_id=measurement.test_id,
+    )
     new_measurement = schemas.Measurement.from_orm(entity)
     return new_measurement.dict(), HTTPStatus.CREATED
 
@@ -40,7 +46,7 @@ def update_measurement(uid: int):
     payload['uid'] = uid
 
     measurement = schemas.Measurement(**payload)
-    entity = repo.update(**measurement.dict())
+    entity = repo.update(uid, **measurement.dict())
 
     if not entity:
         return {'message': 'measurment not found'}, HTTPStatus.NOT_FOUND

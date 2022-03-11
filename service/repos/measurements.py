@@ -14,7 +14,6 @@ class MeasurementsRepo:
         description: str,
         measure_time: datetime,
         test_id: int,
-        uid=None,
     ) -> Measurements:
         measure: Measurements = Measurements(
             name=name,
