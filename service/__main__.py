@@ -1,13 +1,14 @@
 import logging
 
-from flask import Flask
-
 from service import settings
-from service.measurements import measure
+from service.app import create_app
 
-logging.basicConfig(level=logging.DEBUG)
-app = Flask(__name__)
+
+def main():
+    logging.basicConfig(level=logging.DEBUG)
+    app = create_app()
+    app.run(host=settings.APP_HOST, port=settings.APP_PORT)
+
 
 if __name__ == '__main__':
-    app.register_blueprint(measure, url_prefix='/api/v1/measurements')
-    app.run(host='0.0.0.0', port=settings.APP_PORT)
+    main()
