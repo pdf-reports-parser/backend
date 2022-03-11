@@ -1,3 +1,4 @@
+import logging
 from http import HTTPStatus
 
 from flask import Blueprint, jsonify, request
@@ -27,15 +28,10 @@ def get_by_id(uid: int):
 
 @measure.post('/')
 def add_measurement():
-    measurement = request.json
-    repo.add(
-        name=measurement['name'],
-        status=measurement['status'],
-        description=measurement['description'],
-        measure_time=measurement['measure_time'],
-        test_id=measurement['test_id'],
-    )
-    return measurement, HTTPStatus.CREATED
+    measurement = schemas.Measurement(**request.json)
+    entity = repo.add(**measurement.dict())
+    new_measurement = schemas.Measurement.from_orm(entity)
+    return new_measurement.dict(), HTTPStatus.CREATED
 
 
 @measure.put('/<uid>')
