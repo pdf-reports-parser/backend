@@ -46,7 +46,14 @@ def update_measurement(uid: int):
     payload['uid'] = uid
 
     measurement = schemas.Measurement(**payload)
-    entity = repo.update(uid, **measurement.dict())
+    entity = repo.update(
+        uid=uid,
+        name=measurement.name,
+        status=measurement.status,
+        description=measurement.description,
+        measure_time=measurement.measure_time,
+        test_id=measurement.test_id,
+    )
 
     if not entity:
         return {'message': 'measurment not found'}, HTTPStatus.NOT_FOUND
