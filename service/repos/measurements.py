@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
+import service.errors
 from service.db import db_session
 from service.models import Measurements
 
