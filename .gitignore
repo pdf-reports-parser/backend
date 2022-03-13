@@ -129,10 +129,10 @@ dmypy.json
 .pyre/
 
 # pycharm
-.idea
+# .idea
 
 # settings
-settings.py
+# settings.py
 
 # tmp project files
 .my_tmp
