@@ -66,6 +66,5 @@ def update_measurement(uid: int):
 
 @measure.delete('/<uid>')
 def delete_measurement(uid: int):
-    if repo.delete(uid):
-        return {}, HTTPStatus.NO_CONTENT
-    return {'message': 'measurment not found'}, HTTPStatus.NOT_FOUND
+     repo.delete(uid)
+     return {'message': 'measurment not found'}, HTTPStatus.NOT_FOUND

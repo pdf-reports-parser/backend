@@ -7,6 +7,7 @@ from werkzeug.exceptions import HTTPException
 from service.errors import AppError
 from service.views.measurements import measure
 
+
 def handle_http_exceptions(error: HTTPException):
     return {'message': error.description}, error.code
 
