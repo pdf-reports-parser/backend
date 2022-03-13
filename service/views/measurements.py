@@ -1,4 +1,5 @@
 from http import HTTPStatus
+from typing import Any, Optional
 
 from flask import Blueprint, jsonify, request
 
@@ -28,7 +29,7 @@ def get_by_id(uid: int):
 
 @measure.post('/')
 def add_measurement():
-    payload = request.json
+    payload: Optional[Any] = request.json
     payload['uid'] = -1
     measurement = schemas.Measurement(**payload)
     entity = repo.add(
@@ -44,7 +45,7 @@ def add_measurement():
 
 @measure.put('/<uid>')
 def update_measurement(uid: int):
-    payload = request.json
+    payload: Optional[Any] = request.json
     payload['uid'] = uid
 
     measurement = schemas.Measurement(**payload)
