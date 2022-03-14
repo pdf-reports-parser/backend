@@ -24,7 +24,7 @@ db.stop:
 	@docker-compose stop db
 
 stop:
-	@docker-compose stop -tl
+	@docker-compose stop -t1
 
 clean:
 	@docker-compose down
