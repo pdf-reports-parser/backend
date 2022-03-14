@@ -8,6 +8,14 @@ services:
       - 5432:5432
     networks:
       - rssparser-backend
+  app:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - 8000:8080
+    networks:
+      - rssparser-backend
 
 networks:
   rssparser-backend:
