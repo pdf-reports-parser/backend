@@ -9,7 +9,6 @@ lint:
 	@flake8 service
 
 run:
-	@echo $$DB_URL
 	@python -m service
 
 db.run:
@@ -19,7 +18,6 @@ db.log:
 	@docker-compose logs --tail 100 -f db
 
 db.create:
-	@echo $$DB_URL
 	@python -m service.models
 
 db.stop:
