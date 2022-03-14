@@ -11,4 +11,4 @@ RUN poetry install --no-dev
 
 COPY service /app/service
 
-CMD ["python", "-m", "backend"]
+CMD ["python", "-m", "service"]
