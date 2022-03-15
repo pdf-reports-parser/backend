@@ -12,13 +12,34 @@
 <h2 align="center"><a  href="https://yandex.ru">Live Demo</a></h2>
 
 ### [Contributions are Welcome](https://github.com/pdf-reports-parser/backendhttps://github.com/pdf-reports-parser/backend)
-## Description (с использованием слов и изображений)
+## Description
+Implementation of an application with a web interface designed for parsing data from PDF reports, storing them in a database and further output to reporting forms in the required formats (WORD)
 
-## технологии в проекте
-## что-то характерное для проекта (проблемы, с которыми пришлось столкнуться, уникальные составляющие проекта)
+## How to use
+...
+
+## System Requirements
+To start the service, the following software must be installed on your working machine:
+* docker
+* docker-compose
+* the "make" utility
+
+## Technologies used
+* service - python 3.10.2, with libraries:
+  - Flask = "^2.0.3"
+  - SQLAlchemy = "^1.4.32"
+  - psycopg2-binary = "^2.9.3"
+  - pydantic = "^1.9.0"
+
+* data-base - postgresql 14
+* containerization - docker
+
+## Unique features of the service
+...
 
 ## Start service
 ```bash
 make service.run
 ```
-## техническое описание проекта (установка, настройка, как помочь проекту)
+## Support on Beerpay
+...
