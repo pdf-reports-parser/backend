@@ -11,6 +11,9 @@ lint:
 run:
 	@python -m service
 
+service.run:
+	@docker-compose up -d
+
 db.run:
 	@docker-compose up -d db
 
