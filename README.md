@@ -13,6 +13,7 @@
 
 ### [Contributions are Welcome](https://github.com/pdf-reports-parser/backendhttps://github.com/pdf-reports-parser/backend)
 ## Description
+<img src="https://media.giphy.com/media/761TI7Z8vqj77S64RU/giphy.gif">
 Implementation of an application with a web interface designed for parsing data from PDF reports, storing them in a database and further output to reporting forms in the required formats (WORD)
 
 ## How to use
