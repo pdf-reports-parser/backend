@@ -9,11 +9,10 @@
 </p>
 <img src="./read_me/PDF-start.png" width="100%">
 
-<h2 align="center"><a  href="https://yandex.ru">Live Demo</a></h2>
+<h2 align="center">Live Demo</a></h2>
 
-### [Contributions are Welcome](https://github.com/pdf-reports-parser/backendhttps://github.com/pdf-reports-parser/backend)
+
 ## Description
-<img src="https://media.giphy.com/media/761TI7Z8vqj77S64RU/giphy.gif">
 Implementation of an application with a web interface designed for parsing data from PDF reports, storing them in a database and further output to reporting forms in the required formats (WORD)
 
 ## How to use
@@ -32,7 +31,7 @@ To start the service, the following software must be installed on your working m
   - psycopg2-binary = "^2.9.3"
   - pydantic = "^1.9.0"
 
-* data-base - postgresql 14
+* database - postgresql 14
 * containerization - docker
 
 ## Unique features of the service
