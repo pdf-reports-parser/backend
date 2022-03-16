@@ -30,6 +30,7 @@ To start the service, the following software must be installed on your working m
   - SQLAlchemy = "^1.4.32"
   - psycopg2-binary = "^2.9.3"
   - pydantic = "^1.9.0"
+  - typer = "^0.4.0"
 
 * database - postgresql 14
 * containerization - docker
