@@ -1,7 +1,6 @@
 import os
 from sys import argv
 
-
 if len(argv) > 2 and argv[2] == '--local':
     DB_URL: str = os.environ['DB_URL_LOCAL']
     PORT: str = os.environ['PORT_LOCAL']
