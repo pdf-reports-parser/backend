@@ -30,8 +30,9 @@ def get_by_id(uid: int):
 @measure.post('/')
 def add_measurement():
     payload: Optional[Any] = request.json
-    payload['uid'] = -1
-    measurement = schemas.Measurement(**payload)
+    payload['uid'] = -1  # type: ignore
+
+    measurement = schemas.Measurement(**payload)  # type: ignore
     entity = repo.add(
         name=measurement.name,
         status=measurement.status,
@@ -39,6 +40,7 @@ def add_measurement():
         measure_time=measurement.measure_time,
         test_id=measurement.test_id,
     )
+
     new_measurement = schemas.Measurement.from_orm(entity)
     return new_measurement.dict(), HTTPStatus.CREATED
 
@@ -46,9 +48,9 @@ def add_measurement():
 @measure.put('/<uid>')
 def update_measurement(uid: int):
     payload: Optional[Any] = request.json
-    payload['uid'] = uid
+    payload['uid'] = uid  # type: ignore
 
-    measurement = schemas.Measurement(**payload)
+    measurement = schemas.Measurement(**payload)  # type: ignore
     entity = repo.update(
         uid=uid,
         name=measurement.name,
