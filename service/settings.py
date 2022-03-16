@@ -1,16 +1,8 @@
 import os
 
-# default value
-RUN_TYPE = 'docker'
 
-DB_URL = {
-    'docker': os.environ['DB_URL_DOCKER'],
-    'local': os.environ['DB_URL_LOCAL'],
-}
+DB_URL: str = os.environ['DB_URL_DOCKER']
 
-PORT = {
-    'docker': os.environ['PORT_DOCKER'],
-    'local': os.environ['PORT_LOCAL'],
-}
+PORT: str = os.environ['PORT_DOCKER']
 
-APP_HOST = os.environ['APP_HOST']
+APP_HOST: str = os.environ['APP_HOST']
