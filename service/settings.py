@@ -1,12 +1,7 @@
 import os
-from sys import argv
 
-if len(argv) > 2 and argv[2] == '--local':
-    DB_URL: str = os.environ['DB_URL_LOCAL']
-    PORT: str = os.environ['PORT_LOCAL']
+DB_URL: str = os.environ['DB_URL']
 
-else:
-    DB_URL: str = os.environ['DB_URL_DOCKER']
-    PORT: str = os.environ['PORT_DOCKER']
+APP_PORT: str = os.environ['APP_PORT']
 
 APP_HOST: str = os.environ['APP_HOST']

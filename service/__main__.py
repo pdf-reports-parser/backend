@@ -7,20 +7,14 @@ typer_app = typer.Typer(help='PdF-Parser service manager.')
 
 
 @typer_app.command(help='Enter a command "create-db" - to create db scheme')
-def create_db(
-    local_start: bool = typer.Option(False, '--local', '-l', help='start local DB'),  # noqa: E501, WPS404, WPS425, B008
-):
-    if local_start:
-        typer.echo('set new net param')
-    models.create_scheme()
+def create_db():
+    models.create_schema()
 
 
 @typer_app.command(help='Enter a command "run" - to start base service.')
-def run(local_start: bool = typer.Option(False, '--local', '-l', help='start local service')):  # noqa: E501, WPS404, WPS425, B008
-    if local_start:
-        typer.echo('set new net param')
+def run():
     app = create_app()
-    app.run(host=settings.APP_HOST, port=settings.PORT, debug=False)
+    app.run(host=settings.APP_HOST, port=settings.APP_PORT, debug=False)
 
 
 if __name__ == '__main__':
