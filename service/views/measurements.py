@@ -1,7 +1,7 @@
 from http import HTTPStatus
 from typing import Any, Optional
 
-from flask import abort, Blueprint, jsonify, request
+from flask import Blueprint, abort, jsonify, request
 
 from service import schemas
 from service.repos.measurements import MeasurementsRepo
