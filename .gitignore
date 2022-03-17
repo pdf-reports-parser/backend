@@ -130,9 +130,3 @@ dmypy.json
 
 # pycharm
 .idea
-
-# settings
-# settings.py
-
-# tmp project files
-.my_tmp
