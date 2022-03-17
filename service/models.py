@@ -19,5 +19,5 @@ class Measurements(Base):
         return f'<Measurements name="{self.name}" status="{self.status}">'
 
 
-if __name__ == '__main__':
+def create_schema():
     Base.metadata.create_all(bind=engine)

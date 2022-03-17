@@ -1,7 +1,7 @@
 from http import HTTPStatus
 from typing import Any, Optional
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, abort, jsonify, request
 
 from service import schemas
 from service.repos.measurements import MeasurementsRepo
@@ -30,7 +30,11 @@ def get_by_id(uid: int):
 @measure.post('/')
 def add_measurement():
     payload: Optional[Any] = request.json
+    if not payload:
+        abort(HTTPStatus.BAD_REQUEST, 'Тело запроса не может быть пустым')
+
     payload['uid'] = -1
+
     measurement = schemas.Measurement(**payload)
     entity = repo.add(
         name=measurement.name,
@@ -39,6 +43,7 @@ def add_measurement():
         measure_time=measurement.measure_time,
         test_id=measurement.test_id,
     )
+
     new_measurement = schemas.Measurement.from_orm(entity)
     return new_measurement.dict(), HTTPStatus.CREATED
 
@@ -46,6 +51,9 @@ def add_measurement():
 @measure.put('/<uid>')
 def update_measurement(uid: int):
     payload: Optional[Any] = request.json
+    if not payload:
+        abort(HTTPStatus.BAD_REQUEST, 'Тело запроса не может быть пустым')
+
     payload['uid'] = uid
 
     measurement = schemas.Measurement(**payload)
