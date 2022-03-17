@@ -25,13 +25,7 @@ To start the service, the following software must be installed on your working m
 * the "make" utility
 
 ## Technologies used
-* service - python 3.10.2, with libraries:
-  - Flask = "^2.0.3"
-  - SQLAlchemy = "^1.4.32"
-  - psycopg2-binary = "^2.9.3"
-  - pydantic = "^1.9.0"
-  - typer = "^0.4.0"
-
+* service - python 3.10.2
 * database - postgresql 14
 * containerization - docker
 

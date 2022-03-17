@@ -1,7 +1,7 @@
 import os
 
-DB_URL: str = os.environ['DB_URL']
+DB_URL = os.environ['DB_URL']
 
-APP_PORT: str = os.environ['APP_PORT']
+APP_PORT = os.environ['APP_PORT']
 
-APP_HOST: str = os.environ['APP_HOST']
+APP_HOST = os.environ['APP_HOST']

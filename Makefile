@@ -9,7 +9,7 @@ lint:
 	@flake8 service
 
 run:
-	@python -m service run --local
+	@python -m service run
 
 service.run:
 	@docker-compose up -d
@@ -21,7 +21,7 @@ db.log:
 	@docker-compose logs --tail 100 -f db
 
 db.create:
-	@python -m service create-db --local
+	@python -m service create-db
 
 db.stop:
 	@docker-compose stop db
