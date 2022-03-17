@@ -1,11 +1,10 @@
 import typer
 
-from service import models
+from service import config, models
 from service.app import create_app
-from service.config import AppConfig
 
 typer_app = typer.Typer(help='PdF-Parser service manager.')
-app_config = AppConfig()
+app_config = config.load_from_env()
 
 
 @typer_app.command(help='Create db scheme')
