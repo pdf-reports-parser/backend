@@ -6,7 +6,7 @@ from service import config
 
 app_config = config.load_from_env()
 
-engine = create_engine(app_config.DB_URL)
+engine = create_engine(app_config.db_url)
 db_session = scoped_session(sessionmaker(bind=engine))
 
 Base = declarative_base()
