@@ -3,29 +3,21 @@ root = true
 [*]
 charset = utf-8
 end_of_line = lf
-indent_size = 4
-indent_style = space
 insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
 max_line_length = 99
-trim_trailing_whitespace = true # - no in pycharm
-tab_width = 4 # - no in default
 
-# [*.csv] # - no in default
-# max_line_length = 2147483647 # - no in default
+[Makefile]
+indent_style = tab
 
-# [{*.bash,*.sh,*.zsh}] # - no in default
-# indent_size = 2
-# tab_width = 2
+[*.{yml,yaml}]
+indent_size = 2
+indent_style = space
 
-[{*.har,*.json}]
+[*.conf]
 indent_size = 2
 
-[{*.yaml,*.yml}]
+[*.json]
 indent_size = 2
-indent_style = space # - no in pycharm
-
-[Makefile] # - no in pycharm
-indent_style = tab # - no in pycharm
-
-[*.conf] # - no in pycharm
-indent_size = 2 # - no in pycharm
