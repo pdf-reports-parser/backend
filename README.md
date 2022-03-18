@@ -7,7 +7,7 @@
 <a href="https://github.com/pdf-reports-parser/backend"><img alt="GitHub license" src="https://img.shields.io/github/license/pdf-reports-parser/backend?style=for-the-badge"></a>
 <img alt="Build" src="https://img.shields.io/badge/build-docker-blueviolet?style=for-the-badge">
 </p>
-<img src="./read_me/PDF-start.png" width="100%">
+<img src="./assets/PDF-start.png" width="100%">
 
 <h2 align="center">Live Demo</h2>
 
