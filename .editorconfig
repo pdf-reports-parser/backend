@@ -5,10 +5,10 @@ charset = utf-8
 end_of_line = lf
 indent_size = 4
 indent_style = space
-insert_final_newline = false
+insert_final_newline = true
 max_line_length = 99
-# trim_trailing_whitespace = true # - no in pycharm
-# tab_width = 4 # - no in default
+trim_trailing_whitespace = true # - no in pycharm
+tab_width = 4 # - no in default
 
 # [*.csv] # - no in default
 # max_line_length = 2147483647 # - no in default
@@ -22,10 +22,10 @@ indent_size = 2
 
 [{*.yaml,*.yml}]
 indent_size = 2
-# indent_style = space # - no in pycharm
+indent_style = space # - no in pycharm
 
-# [Makefile] # - no in pycharm
-# indent_style = tab # - no in pycharm
+[Makefile] # - no in pycharm
+indent_style = tab # - no in pycharm
 
-# [*.conf] # - no in pycharm
-# indent_size = 2 # - no in pycharm
+[*.conf] # - no in pycharm
+indent_size = 2 # - no in pycharm
