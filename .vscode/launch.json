@@ -6,7 +6,16 @@
             "type": "python",
             "request": "launch",
             "module": "service",
-            "console": "internalConsole"
+            "console": "internalConsole",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "create_db",
+            "type": "python",
+            "request": "launch",
+            "module": "service.models",
+            "console": "internalConsole",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
