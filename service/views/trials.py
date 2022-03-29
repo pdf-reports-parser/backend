@@ -6,28 +6,28 @@ from flask import Blueprint, abort, jsonify, request
 from service import schemas
 from service.repos.trials import TrialsRepo
 
-trial = Blueprint('trial', __name__)
+trial_view = Blueprint('trial_view', __name__)
 
 repo = TrialsRepo()
 
 
-@trial.get('/')
+@trial_view.get('/')
 def get_trials():
     entities = repo.get_all()
     trials = [schemas.Trial.from_orm(entity).dict() for entity in entities]
     return jsonify(trials), HTTPStatus.OK
 
 
-@trial.get('/<uid>')
+@trial_view.get('/<uid>')
 def get_by_id(uid: int):
     entity = repo.get_by_uid(uid)
     if not entity:
         return {'message': 'measurment not found'}, HTTPStatus.NOT_FOUND
-    trial_entity = schemas.Trial.from_orm(entity)
-    return trial_entity.dict(), HTTPStatus.OK
+    trial = schemas.Trial.from_orm(entity)
+    return trial.dict(), HTTPStatus.OK
 
 
-@trial.post('/')
+@trial_view.post('/')
 def add_trial():
     payload: Optional[Any] = request.json
     if not payload:
@@ -35,20 +35,20 @@ def add_trial():
 
     payload['uid'] = -1
 
-    trial_entity = schemas.Trial(**payload)
+    trial = schemas.Trial(**payload)
     entity = repo.add(
-        name=trial_entity.name,
-        status=trial_entity.status,
-        description=trial_entity.description,
-        trial_time=trial_entity.trial_time,
-        test_id=trial_entity.test_id,
+        name=trial.name,
+        status=trial.status,
+        description=trial.description,
+        trial_time=trial.trial_time,
+        test_id=trial.test_id,
     )
 
     new_trial = schemas.Trial.from_orm(entity)
     return new_trial.dict(), HTTPStatus.CREATED
 
 
-@trial.put('/<uid>')
+@trial_view.put('/<uid>')
 def update_trial(uid: int):
     payload: Optional[Any] = request.json
     if not payload:
@@ -56,14 +56,14 @@ def update_trial(uid: int):
 
     payload['uid'] = uid
 
-    trial_entity = schemas.Trial(**payload)
+    trial = schemas.Trial(**payload)
     entity = repo.update(
         uid=uid,
-        name=trial_entity.name,
-        status=trial_entity.status,
-        description=trial_entity.description,
-        trial_time=trial_entity.trial_time,
-        test_id=trial_entity.test_id,
+        name=trial.name,
+        status=trial.status,
+        description=trial.description,
+        trial_time=trial.trial_time,
+        test_id=trial.test_id,
     )
 
     if not entity:
@@ -73,7 +73,7 @@ def update_trial(uid: int):
     return fresh_trial.dict(), HTTPStatus.OK
 
 
-@trial.delete('/<uid>')
+@trial_view.delete('/<uid>')
 def delete_trial(uid: int):
     repo.delete(uid)
     return {}, HTTPStatus.NO_CONTENT
