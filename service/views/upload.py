@@ -8,11 +8,6 @@ from werkzeug.utils import secure_filename
 upload = Blueprint('upload', __name__)
 
 
-def file_handler(filename: Path):
-    measurement = aquaparser.parse(filename)
-    return measurement.toc
-
-
 @upload.post('/')
 def download_file():
     upload_dir = Path('service/tmp')
