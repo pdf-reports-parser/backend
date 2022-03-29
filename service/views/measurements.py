@@ -33,6 +33,8 @@ def get_measurement_by_id(uid):
 @measurement.post('/')
 def add_measurement():
     measurement_entity = request.json
+    if not measurement_entity:
+        abort(HTTPStatus.BAD_REQUEST, 'Тело запроса не может быть пустым')
     measurement_entity['uid'] = uuid4().hex
     measurements_storage[measurement_entity['uid']] = measurement_entity
     return measurement_entity, HTTPStatus.CREATED
@@ -43,6 +45,8 @@ def update_measurement(uid):
     if uid not in measurements_storage:
         return {'message': 'measurement not found'}, HTTPStatus.NOT_FOUND
     # TODO: validation
+    if not request.json:
+        abort(HTTPStatus.BAD_REQUEST, 'Тело запроса не может быть пустым')
     measurements_storage[uid] = request.json
     return request.json, HTTPStatus.OK
 
