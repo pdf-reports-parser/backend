@@ -23,8 +23,8 @@ def get_by_id(uid: int):
     entity = repo.get_by_uid(uid)
     if not entity:
         return {'message': 'measurment not found'}, HTTPStatus.NOT_FOUND
-    trial = schemas.Trial.from_orm(entity)
-    return trial.dict(), HTTPStatus.OK
+    trial_entity = schemas.Trial.from_orm(entity)
+    return trial_entity.dict(), HTTPStatus.OK
 
 
 @trial.post('/')
@@ -35,13 +35,13 @@ def add_trial():
 
     payload['uid'] = -1
 
-    trial = schemas.Trial(**payload)
+    trial_entity = schemas.Trial(**payload)
     entity = repo.add(
-        name=trial.name,
-        status=trial.status,
-        description=trial.description,
-        trial_time=trial.trial_time,
-        test_id=trial.test_id,
+        name=trial_entity.name,
+        status=trial_entity.status,
+        description=trial_entity.description,
+        trial_time=trial_entity.trial_time,
+        test_id=trial_entity.test_id,
     )
 
     new_trial = schemas.Trial.from_orm(entity)
@@ -56,14 +56,14 @@ def update_trial(uid: int):
 
     payload['uid'] = uid
 
-    trial = schemas.Trial(**payload)
+    trial_entity = schemas.Trial(**payload)
     entity = repo.update(
         uid=uid,
-        name=trial.name,
-        status=trial.status,
-        description=trial.description,
-        trial_time=trial.trial_time,
-        test_id=trial.test_id,
+        name=trial_entity.name,
+        status=trial_entity.status,
+        description=trial_entity.description,
+        trial_time=trial_entity.trial_time,
+        test_id=trial_entity.test_id,
     )
 
     if not entity:
