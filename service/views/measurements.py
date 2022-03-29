@@ -1,7 +1,8 @@
 from http import HTTPStatus
-from flask import Blueprint, jsonify, request
-
+from pathlib import Path
 from uuid import uuid4
+
+from flask import Blueprint, abort, jsonify, request
 
 # Temporary dictory of measurements
 measurements_storage = {
@@ -51,3 +52,19 @@ def delete_measurement(uid):
         return {'message': 'measurement not found'}, HTTPStatus.NOT_FOUND
     measurements_storage.pop(uid)
     return {}, HTTPStatus.NO_CONTENT
+
+
+@measurement.route('/download',  methods=['GET', 'POST'])
+def download_file():
+    upload_dir = Path('service/tmp')
+    upload_file = upload_dir / 'report.pdf'
+
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            abort(HTTPStatus.BAD_REQUEST, 'В теле запроса должен передоваться файл ("file")')
+        file = request.files['file']
+        if file.filename == '':
+            abort(HTTPStatus.BAD_REQUEST, 'В теле запроса должен передоваться файл ("file")')
+
+        file.save(upload_file)
+        return {}, HTTPStatus.ACCEPTED
