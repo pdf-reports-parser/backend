@@ -5,8 +5,8 @@ from pydantic import ValidationError
 from werkzeug.exceptions import HTTPException
 
 from service.errors import AppError
-from service.views.trials import trial
 from service.views.measurements import measurement
+from service.views.trials import trial
 
 
 def handle_http_exceptions(error: HTTPException):
