@@ -28,5 +28,6 @@ def download_file():
         abort(HTTPStatus.BAD_REQUEST, 'Неподдерживаемый формат файла - необходим PDF')
 
     file.save(upload_file)
-    toc = file_handler(upload_file)
-    return jsonify(toc), HTTPStatus.ACCEPTED
+
+    measurement = aquaparser.parse(upload_file)
+    return jsonify(measurement.toc), HTTPStatus.ACCEPTED
