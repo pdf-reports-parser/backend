@@ -5,8 +5,9 @@ from pydantic import ValidationError
 from werkzeug.exceptions import HTTPException
 
 from service.errors import AppError
-from service.views.trials import trial
 from service.views.measurements import measurement
+from service.views.trials import trial_view
+from service.views.upload import upload
 
 
 def handle_http_exceptions(error: HTTPException):
@@ -24,8 +25,9 @@ def handle_validation_error(error: ValidationError):
 def create_app():
     app = Flask(__name__)
 
-    app.register_blueprint(trial, url_prefix='/api/v1/trials')
+    app.register_blueprint(trial_view, url_prefix='/api/v1/trials')
     app.register_blueprint(measurement, url_prefix='/api/v1/measurements')
+    app.register_blueprint(upload, url_prefix='/api/v1/upload')
 
     app.register_error_handler(HTTPException, handle_http_exceptions)
     app.register_error_handler(AppError, handle_app_error)
