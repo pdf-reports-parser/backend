@@ -1,45 +1,12 @@
 from http import HTTPStatus
 from pathlib import Path
 
-import aquaparser
-from dataclasses import asdict
-from flask import Blueprint, abort, jsonify, request
+from flask import Blueprint, abort, request
 from werkzeug.utils import secure_filename
 
-from service import schemas
-from service.repos.trials import TrialsRepo
+from service.extractor import extractor
 
 upload = Blueprint('upload', __name__)
-
-repo = TrialsRepo()
-
-
-def db_insert(filename: Path):
-    measurement = aquaparser.parse(filename)
-    measurement_return = {
-        'measurement': asdict(measurement.title),
-    }
-    # the stub is necessary until we get the id of the new measurement from the database
-    measure_id = 1
-    trials_list = []
-    for toc in measurement.toc:
-        payload = asdict(toc)
-        payload['uid'] = -1
-        payload['measure_id'] = measure_id
-        trial = schemas.Trial(**payload)
-        entity = repo.add(
-            smd=trial.smd,
-            status=trial.status,
-            value_description=trial.value_description,
-            single_value=trial.single_value,
-            trial_object=trial.trial_object,
-            measure_id=trial.measure_id,
-        )
-
-        new_trial = schemas.Trial.from_orm(entity)
-        trials_list.append(new_trial.dict())
-    measurement_return['trials'] = trials_list
-    return measurement_return
 
 
 @upload.post('/')
@@ -58,5 +25,5 @@ def download_file():
 
     file.save(upload_file)
 
-    measurement = db_insert(upload_file)
+    measurement = extractor.measurement_to_db(upload_file)
     return measurement, HTTPStatus.ACCEPTED
