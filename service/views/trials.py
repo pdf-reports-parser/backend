@@ -66,7 +66,6 @@ def update_trial(uid: int):
         single_value=trial.single_value,
         trial_object=trial.trial_object,
         measure_id=trial.measure_id,
-
     )
 
     if not entity:
