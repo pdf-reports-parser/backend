@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, Integer, String
+from sqlalchemy import Column, Integer, String
 
 from service.db import Base, engine
 
@@ -6,11 +6,12 @@ from service.db import Base, engine
 class Trials(Base):
     __tablename__ = 'trials'
     uid = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String)
+    smd = Column(String)
     status = Column(String(5))
-    description = Column(String)
-    trial_time = Column(DateTime)
-    test_id = Column(String)
+    value_description = Column(String)
+    single_value = Column(String)
+    trial_object = Column(String)
+    measure_id = Column(Integer)
 
     def as_dict(self):
         return {col.name: getattr(self, col.name) for col in self.__table__.columns}

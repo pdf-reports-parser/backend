@@ -37,11 +37,12 @@ def add_trial():
 
     trial = schemas.Trial(**payload)
     entity = repo.add(
-        name=trial.name,
+        smd=trial.smd,
         status=trial.status,
-        description=trial.description,
-        trial_time=trial.trial_time,
-        test_id=trial.test_id,
+        value_description=trial.value_description,
+        single_value=trial.single_value,
+        trial_object=trial.trial_object,
+        measure_id=trial.measure_id,
     )
 
     new_trial = schemas.Trial.from_orm(entity)
@@ -59,11 +60,12 @@ def update_trial(uid: int):
     trial = schemas.Trial(**payload)
     entity = repo.update(
         uid=uid,
-        name=trial.name,
+        smd=trial.smd,
         status=trial.status,
-        description=trial.description,
-        trial_time=trial.trial_time,
-        test_id=trial.test_id,
+        value_description=trial.value_description,
+        single_value=trial.single_value,
+        trial_object=trial.trial_object,
+        measure_id=trial.measure_id,
     )
 
     if not entity:

@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from sqlalchemy.exc import IntegrityError
 
 from service.db import db_session
@@ -11,18 +9,20 @@ class TrialsRepo:
 
     def add(
         self,
-        name: str,
+        smd: str,
         status: str,
-        description: str,
-        trial_time: datetime,
-        test_id: int,
+        value_description: str,
+        single_value: str,
+        trial_object: str,
+        measure_id: int,
     ) -> Trials:
         trial: Trials = Trials(
-            name=name,
+            smd=smd,
             status=status,
-            description=description,
-            trial_time=trial_time,
-            test_id=test_id,
+            value_description=value_description,
+            single_value=single_value,
+            trial_object=trial_object,
+            measure_id=measure_id,
         )
         db_session.add(trial)
         db_session.commit()
@@ -31,21 +31,23 @@ class TrialsRepo:
     def update(
         self,
         uid: int,
-        name: str,
+        smd: str,
         status: str,
-        description: str,
-        trial_time: datetime,
-        test_id: int,
+        value_description: str,
+        single_value: str,
+        trial_object: str,
+        measure_id: int,
     ) -> Trials:
         trial: Trials = Trials.query.filter_by(uid=uid).first()
         if not trial:
             raise NotFoundError('trial')
         try:
-            trial.name = name
+            trial.smd = smd
             trial.status = status
-            trial.description = description
-            trial.trial_time = trial_time
-            trial.test_id = test_id
+            trial.value_description = value_description
+            trial.single_value = single_value
+            trial.trial_object = trial_object
+            trial.measure_id = measure_id
             db_session.commit()
         except IntegrityError:
             raise ConflictError('trial')

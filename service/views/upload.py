@@ -1,9 +1,10 @@
 from http import HTTPStatus
 from pathlib import Path
 
-import aquaparser
-from flask import Blueprint, abort, jsonify, request
+from flask import Blueprint, abort, request
 from werkzeug.utils import secure_filename
+
+from service.extractor import extractor
 
 upload = Blueprint('upload', __name__)
 
@@ -24,5 +25,5 @@ def download_file():
 
     file.save(upload_file)
 
-    measurement = aquaparser.parse(upload_file)
-    return jsonify(measurement.toc), HTTPStatus.ACCEPTED
+    measurement = extractor.measurement_to_db(upload_file)
+    return measurement, HTTPStatus.ACCEPTED

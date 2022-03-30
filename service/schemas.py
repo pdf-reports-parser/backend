@@ -1,15 +1,14 @@
-from datetime import datetime
-
 from pydantic import BaseModel, constr
 
 
 class Trial(BaseModel):
     uid: int
-    name: constr(min_length=1)  # type: ignore
+    smd: constr(min_length=1)  # type: ignore
     status: constr(min_length=1)  # type: ignore
-    description: constr(min_length=1)  # type: ignore
-    trial_time: datetime
-    test_id: int
+    value_description: constr()  # type: ignore
+    single_value: constr()  # type: ignore
+    trial_object: constr(min_length=1)  # type: ignore
+    measure_id: int
 
     class Config:
         orm_mode = True
