@@ -11,18 +11,20 @@ class TrialsRepo:
 
     def add(
         self,
-        name: str,
+        smd: str,
         status: str,
-        description: str,
-        trial_time: datetime,
-        test_id: int,
+        value_description: str,
+        single_value: str,
+        trial_object: str,
+        measure_id: int,
     ) -> Trials:
         trial: Trials = Trials(
-            name=name,
+            smd=smd,
             status=status,
-            description=description,
-            trial_time=trial_time,
-            test_id=test_id,
+            value_description=value_description,
+            single_value=single_value,
+            trial_object=trial_object,
+            measure_id=measure_id,
         )
         db_session.add(trial)
         db_session.commit()
