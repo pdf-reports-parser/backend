@@ -12,3 +12,12 @@ class Trial(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class Measurement(BaseModel):
+    uid: int
+    name: constr(min_length=1)  # type: ignore
+    data: constr(min_length=1)  # type: ignore
+
+    class Config:
+        orm_mode = True

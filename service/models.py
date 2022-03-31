@@ -20,5 +20,18 @@ class Trials(Base):
         return f'<Trials name="{self.name}" status="{self.status}">'
 
 
+class Measurements(Base):
+    __tablename__ = 'measurements'
+    uid = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String)
+    data = Column(String)
+
+    def as_dict(self):
+        return {col.name: getattr(self, col.name) for col in self.__table__.columns}
+
+    def __repr__(self):
+        return f'<Measurements name="{self.name}" data="{self.data}">'
+
+
 def create_schema():
     Base.metadata.create_all(bind=engine)

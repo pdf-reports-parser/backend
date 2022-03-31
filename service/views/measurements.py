@@ -1,53 +1,66 @@
 from http import HTTPStatus
-from flask import Blueprint, jsonify, request
+from typing import Any, Optional
 
-from uuid import uuid4
+from flask import Blueprint, abort, jsonify, request
 
-# Temporary dictory of measurements
-measurements_storage = {
-    'f9cad67d02694fae947dd9bbfe5b9399': {'uid': 'f9cad67d02694fae947dd9bbfe5b9399', 'name': 'Measurement1', 'Data': 'Done'},
-    '46debfb4f9e44e1d831f0791d711deb7': {'uid': '46debfb4f9e44e1d831f0791d711deb7', 'name': 'Measurement2', 'Data': 'Permissible'},
-    '32235e10f04440bba88db5861b2faeba': {'uid': '32235e10f04440bba88db5861b2faeba', 'name': 'Measurement3', 'Data': 'Failed'}
-}
+from service import schemas
+from service.repos.measurements import MeasurementsRepo
 
+measurement_view = Blueprint('measurement_view', __name__)
 
-measurement = Blueprint('measurement', __name__)
+repo = MeasurementsRepo()
 
 
-@measurement.get('/')
+@measurement_view.get('/')
 def get_measurements():
-    measurements = [measurement for _, measurement in measurements_storage.items()]
-    return jsonify(measurements)
+    entities = repo.get_all()
+    measurements = [schemas.Measurement.from_orm(entity).dict() for entity in entities]
+    return jsonify(measurements), HTTPStatus.OK
 
 
-@measurement.get('/<uid>')
-def get_measurement_by_id(uid):
-    measurement = measurements_storage.get(uid)
-    if not measurement:
+@measurement_view.get('/<uid>')
+def get_measurement_by_id(uid: int):
+    entity = repo.get_by_uid(uid)
+    if not entity:
         return {'message': 'measurement not found'}, HTTPStatus.NOT_FOUND
-    return measurement
+    measurement = schemas.Measurement.from_orm(entity)
+    return measurement.dict(), HTTPStatus.OK
 
 
-@measurement.post('/')
+@measurement_view.post('/')
 def add_measurement():
-    measurement = request.json
-    measurement['uid'] = uuid4().hex
-    measurements_storage[measurement['uid']] = measurement
-    return measurement, HTTPStatus.CREATED
+    payload: Optional[Any] = request.json
+    if not payload:
+        abort(HTTPStatus.BAD_REQUEST, 'The body of the request could not be empty')
+
+    payload['uid'] = -1
+
+    measurement = schemas.Measurement(**payload)
+    entity = repo.add(name=measurement.name, data=measurement.data)
+
+    new_measurement = schemas.Measurement.from_orm(entity)
+    return new_measurement.dict(), HTTPStatus.CREATED
 
 
-@measurement.put('/<uid>')
-def update_measurement(uid):
-    if uid not in measurements_storage:
+@measurement_view.put('/<uid>')
+def update_measurement(uid: int):
+    payload: Optional[Any] = request.json
+    if not payload:
+        abort(HTTPStatus.BAD_REQUEST, 'The body of the request could not be empty')
+
+    payload['uid'] = uid
+
+    measurement = schemas.Measurement(**payload)
+    entity = repo.update(uid=uid, name=measurement.name, data=measurement.data)
+
+    if not entity:
         return {'message': 'measurement not found'}, HTTPStatus.NOT_FOUND
-    # TODO: validation
-    measurements_storage[uid] = request.json
-    return request.json, HTTPStatus.OK
+
+    fresh_measurement = schemas.Measurement.from_orm(entity)
+    return fresh_measurement.dict(), HTTPStatus.OK
 
 
-@measurement.delete('/<uid>')
-def delete_measurement(uid):
-    if uid not in measurements_storage:
-        return {'message': 'measurement not found'}, HTTPStatus.NOT_FOUND
-    measurements_storage.pop(uid)
+@measurement_view.delete('/<uid>')
+def delete_measurement(uid: int):
+    repo.delete(uid)
     return {}, HTTPStatus.NO_CONTENT
