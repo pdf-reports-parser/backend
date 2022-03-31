@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, DateTime, Integer, String
 
 from service.db import Base, engine
 
@@ -18,6 +18,18 @@ class Trials(Base):
 
     def __repr__(self):
         return f'<Trials name="{self.name}" status="{self.status}">'
+
+
+class Measurement(Base):
+    __tablename__ = 'measurements'
+    uid = Column(Integer, primary_key=True, autoincrement=True)
+    measurement_object = Column(String)
+    project = Column(String)
+    report_date = Column(DateTime)
+    responsible_person = Column(String)
+
+    def __repr__(self):
+        return f'<Measurements object="{self.measurement_object}" date="{self.date}">'
 
 
 def create_schema():
