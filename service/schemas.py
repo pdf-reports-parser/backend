@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel, constr
 
 
@@ -16,8 +18,10 @@ class Trial(BaseModel):
 
 class Measurement(BaseModel):
     uid: int
-    name: constr(min_length=1)  # type: ignore
-    data: constr(min_length=1)  # type: ignore
+    measurement_object: constr(min_length=1)  # type: ignore
+    project: constr(min_length=1)  # type: ignore
+    report_date: datetime
+    responsible_person: constr(min_length=1)  # type: ignore
 
     class Config:
         orm_mode = True

@@ -36,7 +36,12 @@ def add_measurement():
     payload['uid'] = -1
 
     measurement = schemas.Measurement(**payload)
-    entity = repo.add(name=measurement.name, data=measurement.data)
+    entity = repo.add(
+        measurement_object=measurement.measurement_object,
+        project=measurement.project,
+        report_date=measurement.report_date,
+        responsible_person=measurement.responsible_person,
+    )
 
     new_measurement = schemas.Measurement.from_orm(entity)
     return new_measurement.dict(), HTTPStatus.CREATED
@@ -51,7 +56,13 @@ def update_measurement(uid: int):
     payload['uid'] = uid
 
     measurement = schemas.Measurement(**payload)
-    entity = repo.update(uid=uid, name=measurement.name, data=measurement.data)
+    entity = repo.update(
+        uid=uid,
+        measurement_object=measurement.measurement_object,
+        project=measurement.project,
+        report_date=measurement.report_date,
+        responsible_person=measurement.responsible_person,
+    )
 
     if not entity:
         return {'message': 'measurement not found'}, HTTPStatus.NOT_FOUND
