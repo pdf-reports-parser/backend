@@ -15,7 +15,7 @@ def write_to_bd_title(measurement_report):
     payload = asdict(measurement_report.title)
     payload['uid'] = -1
     measurement = schemas.Measurement(**payload)
-    entity = schemas.Measurement(
+    entity = measurement_repo.add(
         measurement_object=measurement.measurement_object,
         project=measurement.project,
         report_date=measurement.report_date,
@@ -50,8 +50,5 @@ def write_to_bd_trials(measurement_report, measure_id: int):
 def measurement_to_db(filename: Path):
     measurement = aquaparser.parse(filename)
     measure_id, title = write_to_bd_title(measurement)
-    trials = write_to_bd_trials(measurement, measure_id)
-    return {
-        'measurement': title,
-        'trials': trials,
-    }
+    write_to_bd_trials(measurement, measure_id)
+    return {'measurement': title}
