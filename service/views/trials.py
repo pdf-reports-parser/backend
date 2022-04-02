@@ -60,11 +60,11 @@ def update_trial(uid: int):
     trial = schemas.Trial(**payload)
     entity = repo.update(
         uid=uid,
-        smd=trial.smd,
+        name=trial.name,
         status=trial.status,
-        value_description=trial.value_description,
-        single_value=trial.single_value,
-        trial_object=trial.trial_object,
+        unit=trial.unit,
+        value=trial.value,
+        subject=trial.subject,
         measure_id=trial.measure_id,
     )
 

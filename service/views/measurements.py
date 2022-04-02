@@ -59,10 +59,10 @@ def update_measurement(uid: int):
     measurement = schemas.Measurement(**payload)
     entity = repo.update(
         uid=uid,
-        measurement_object=measurement.measurement_object,
+        subject=measurement.subject,
         project=measurement.project,
-        report_date=measurement.report_date,
-        responsible_person=measurement.responsible_person,
+        date=measurement.date,
+        responsible=measurement.responsible,
     )
 
     if not entity:
