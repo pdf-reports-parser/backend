@@ -48,7 +48,7 @@ def write_to_bd_trials(measurement_report, measure_id: int):
 
 
 def measurement_to_db(filename: Path):
-    measurement = aquaparser.parse(filename)
+    measurement = aquaparser.parse(filename.__str__())
     measure_id, title = write_to_bd_title(measurement)
     write_to_bd_trials(measurement, measure_id)
     return {'measurement': title}
