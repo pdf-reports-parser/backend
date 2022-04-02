@@ -1,6 +1,6 @@
 [[package]]
 name = "aqua-parser"
-version = "0.2.0"
+version = "0.2.1"
 description = "An amazing aquaparser-parser."
 category = "main"
 optional = false
@@ -764,8 +764,8 @@ content-hash = "aba0ec4e19523a2410f3729510ec7ca3c7bb35d3907aa0b0bea4b2a2fdb0eedd
 
 [metadata.files]
 aqua-parser = [
-    {file = "aqua-parser-0.2.0.tar.gz", hash = "sha256:81456407a4c3437f53b86eb014267a641dc4d21efd22095cd35b2c256607f15c"},
-    {file = "aqua_parser-0.2.0-py3-none-any.whl", hash = "sha256:1c855e2594b927a4d92db8cc3a990508a0aa50611c7238a6d878589abf709c13"},
+    {file = "aqua-parser-0.2.1.tar.gz", hash = "sha256:08d20fb97d1e2634802efa5f7e40fc3ad73fbeab50cc23830eb7ce2b31b9380a"},
+    {file = "aqua_parser-0.2.1-py3-none-any.whl", hash = "sha256:cc6ef2c738d105dcfbae6ef21c694f516fb883aad0a427594be1ff2772fd7c79"},
 ]
 astor = [
     {file = "astor-0.8.1-py2.py3-none-any.whl", hash = "sha256:070a54e890cefb5b3739d19f30f5a5ec840ffc9c50ffa7d23cc9fc1a38ebbfc5"},
