@@ -4,9 +4,10 @@ from pathlib import Path
 from flask import Blueprint, abort, request
 from werkzeug.utils import secure_filename
 
-from service.extractor import extractor
+from service.extractor.extractor import Extractor
 
 upload = Blueprint('upload', __name__)
+extractor = Extractor()
 
 
 @upload.post('/')
@@ -25,5 +26,5 @@ def download_file():
 
     file.save(upload_file)
 
-    measurement = extractor.measurement_to_db(upload_file)
-    return measurement, HTTPStatus.ACCEPTED
+    measurement = extractor.extract(upload_file)
+    return measurement.dict(), HTTPStatus.CREATED

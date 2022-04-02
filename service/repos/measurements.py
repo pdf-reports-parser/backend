@@ -11,16 +11,16 @@ class MeasurementsRepo:
 
     def add(
         self,
-        measurement_object: str,
+        subject: str,
         project: str,
-        report_date: datetime,
-        responsible_person: str,
+        date: datetime,
+        responsible: str,
     ) -> Measurement:
-        measurement: Measurement = Measurement(
-            measurement_object=measurement_object,
+        measurement = Measurement(
+            subject=subject,
             project=project,
-            report_date=report_date,
-            responsible_person=responsible_person,
+            date=date,
+            responsible=responsible,
         )
         db_session.add(measurement)
         db_session.commit()
@@ -38,19 +38,19 @@ class MeasurementsRepo:
     def update(
         self,
         uid: int,
-        measurement_object: str,
+        subject: str,
         project: str,
-        report_date: datetime,
-        responsible_person: str,
+        date: datetime,
+        responsible: str,
     ) -> Measurement:
         measurement: Measurement = Measurement.query.filter_by(uid=uid).first()
         if not measurement:
             raise NotFoundError('measurement')
         try:
-            measurement.measurement_object = measurement_object
+            measurement.subject = subject
             measurement.project = project
-            measurement.report_date = report_date
-            measurement.responsible_person = responsible_person
+            measurement.date = date
+            measurement.responsible = responsible
             db_session.commit()
         except IntegrityError:
             raise ConflictError('measurement')

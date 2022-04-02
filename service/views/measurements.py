@@ -1,7 +1,8 @@
 from http import HTTPStatus
 from typing import Any, Optional
 
-from flask import Blueprint, abort, jsonify, request
+import orjson
+from flask import Blueprint, abort, request
 
 from service import schemas
 from service.repos.measurements import MeasurementsRepo
@@ -15,7 +16,7 @@ repo = MeasurementsRepo()
 def get_measurements():
     entities = repo.get_all()
     measurements = [schemas.Measurement.from_orm(entity).dict() for entity in entities]
-    return jsonify(measurements), HTTPStatus.OK
+    return orjson.dumps(measurements), HTTPStatus.OK
 
 
 @measurement_view.get('/<uid>')
@@ -37,10 +38,10 @@ def add_measurement():
 
     measurement = schemas.Measurement(**payload)
     entity = repo.add(
-        measurement_object=measurement.measurement_object,
+        subject=measurement.subject,
         project=measurement.project,
-        report_date=measurement.report_date,
-        responsible_person=measurement.responsible_person,
+        date=measurement.date,
+        responsible=measurement.responsible,
     )
 
     new_measurement = schemas.Measurement.from_orm(entity)
@@ -58,10 +59,10 @@ def update_measurement(uid: int):
     measurement = schemas.Measurement(**payload)
     entity = repo.update(
         uid=uid,
-        measurement_object=measurement.measurement_object,
+        subject=measurement.subject,
         project=measurement.project,
-        report_date=measurement.report_date,
-        responsible_person=measurement.responsible_person,
+        date=measurement.date,
+        responsible=measurement.responsible,
     )
 
     if not entity:

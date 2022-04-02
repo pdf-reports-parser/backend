@@ -9,19 +9,19 @@ class TrialsRepo:
 
     def add(
         self,
-        smd: str,
+        name: str,
         status: str,
-        value_description: str,
-        single_value: str,
-        trial_object: str,
+        unit: str,
+        value: str,
+        subject: str,
         measure_id: int,
     ) -> Trials:
         trial: Trials = Trials(
-            smd=smd,
+            name=name,
             status=status,
-            value_description=value_description,
-            single_value=single_value,
-            trial_object=trial_object,
+            unit=unit,
+            value=value,
+            subject=subject,
             measure_id=measure_id,
         )
         db_session.add(trial)
@@ -31,22 +31,22 @@ class TrialsRepo:
     def update(
         self,
         uid: int,
-        smd: str,
+        name: str,
         status: str,
-        value_description: str,
-        single_value: str,
-        trial_object: str,
+        unit: str,
+        value: str,
+        subject: str,
         measure_id: int,
     ) -> Trials:
         trial: Trials = Trials.query.filter_by(uid=uid).first()
         if not trial:
             raise NotFoundError('trial')
         try:
-            trial.smd = smd
+            trial.name = name
             trial.status = status
-            trial.value_description = value_description
-            trial.single_value = single_value
-            trial.trial_object = trial_object
+            trial.unit = unit
+            trial.value = value
+            trial.subject = subject
             trial.measure_id = measure_id
             db_session.commit()
         except IntegrityError:
