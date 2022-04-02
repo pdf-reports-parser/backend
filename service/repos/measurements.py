@@ -11,16 +11,16 @@ class MeasurementsRepo:
 
     def add(
         self,
-        measurement_object: str,
+        subject: str,
         project: str,
-        report_date: datetime,
-        responsible_person: str,
+        date: datetime,
+        responsible: str,
     ) -> Measurement:
-        measurement: Measurement = Measurement(
-            measurement_object=measurement_object,
+        measurement = Measurement(
+            subject=subject,
             project=project,
-            report_date=report_date,
-            responsible_person=responsible_person,
+            date=date,
+            responsible=responsible,
         )
         db_session.add(measurement)
         db_session.commit()

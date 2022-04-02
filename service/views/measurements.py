@@ -38,10 +38,10 @@ def add_measurement():
 
     measurement = schemas.Measurement(**payload)
     entity = repo.add(
-        measurement_object=measurement.measurement_object,
+        subject=measurement.subject,
         project=measurement.project,
-        report_date=measurement.report_date,
-        responsible_person=measurement.responsible_person,
+        date=measurement.date,
+        responsible=measurement.responsible,
     )
 
     new_measurement = schemas.Measurement.from_orm(entity)

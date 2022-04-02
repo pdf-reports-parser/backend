@@ -9,19 +9,19 @@ class TrialsRepo:
 
     def add(
         self,
-        smd: str,
+        name: str,
         status: str,
-        value_description: str,
-        single_value: str,
-        trial_object: str,
+        unit: str,
+        value: str,
+        subject: str,
         measure_id: int,
     ) -> Trials:
         trial: Trials = Trials(
-            smd=smd,
+            name=name,
             status=status,
-            value_description=value_description,
-            single_value=single_value,
-            trial_object=trial_object,
+            unit=unit,
+            value=value,
+            subject=subject,
             measure_id=measure_id,
         )
         db_session.add(trial)
