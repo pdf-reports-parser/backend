@@ -9,6 +9,7 @@ from service.extractor.extractor import Extractor
 upload = Blueprint('upload', __name__)
 extractor = Extractor()
 
+
 @upload.post('/')
 def download_file():
     upload_dir = Path('service/tmp')

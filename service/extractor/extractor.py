@@ -1,8 +1,7 @@
-from dataclasses import asdict
 from pathlib import Path
 
 import aquaparser
-from aquaparser.schemas import Measurement, MeasurementTitle, MeasurementTOC
+from aquaparser.schemas import MeasurementTitle, MeasurementTOC
 
 from service import schemas
 from service.repos.measurements import MeasurementsRepo
@@ -35,10 +34,10 @@ class Extractor:
 
             entity = trial_repo.add(
                 name=toc.smd,
-                status=toc.status,
-                unit=toc.value_description,
-                value=toc.single_value,
-                subject=toc.trial_object,
+                status=str(toc.status),
+                unit=str(toc.value_description),
+                value=str(toc.single_value),
+                subject=str(toc.trial_object),
                 measure_id=measure_id,
             )
 
