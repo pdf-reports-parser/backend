@@ -6,6 +6,7 @@
             "type": "python",
             "request": "launch",
             "module": "service",
+            "args": ["run"],
             "console": "internalConsole",
             "envFile": "${workspaceFolder}/.env"
         },

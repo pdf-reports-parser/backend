@@ -8,11 +8,11 @@ from service.extractor.extractor import Extractor
 
 upload = Blueprint('upload', __name__)
 extractor = Extractor()
-
+upload_dir = Path('tmp')
+upload_dir.mkdir(exist_ok=True, parents=True)
 
 @upload.post('/')
 def download_file():
-    upload_dir = Path('service/tmp')
     upload_file = upload_dir / 'report.pdf'
 
     if 'file' not in request.files:
