@@ -1,6 +1,7 @@
 from http import HTTPStatus
 from typing import Any, Optional
 
+import orjson
 from flask import Blueprint, abort, jsonify, request
 
 from service import schemas
@@ -15,7 +16,7 @@ repo = MeasurementsRepo()
 def get_measurements():
     entities = repo.get_all()
     measurements = [schemas.Measurement.from_orm(entity).dict() for entity in entities]
-    return jsonify(measurements), HTTPStatus.OK
+    return orjson.dumps(measurements), HTTPStatus.OK
 
 
 @measurement_view.get('/<uid>')
