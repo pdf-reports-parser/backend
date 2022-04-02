@@ -25,7 +25,7 @@ def get_measurement_by_id(uid: int):
     if not entity:
         return {'message': 'measurement not found'}, HTTPStatus.NOT_FOUND
     measurement = schemas.Measurement.from_orm(entity)
-    return measurement.dict(), HTTPStatus.OK
+    return orjson.dumps(measurement.dict()), HTTPStatus.OK
 
 
 @measurement_view.post('/')
@@ -45,7 +45,7 @@ def add_measurement():
     )
 
     new_measurement = schemas.Measurement.from_orm(entity)
-    return new_measurement.dict(), HTTPStatus.CREATED
+    return orjson.dumps(new_measurement.dict()), HTTPStatus.CREATED
 
 
 @measurement_view.put('/<uid>')
@@ -69,7 +69,7 @@ def update_measurement(uid: int):
         return {'message': 'measurement not found'}, HTTPStatus.NOT_FOUND
 
     fresh_measurement = schemas.Measurement.from_orm(entity)
-    return fresh_measurement.dict(), HTTPStatus.OK
+    return orjson.dumps(fresh_measurement.dict()), HTTPStatus.OK
 
 
 @measurement_view.delete('/<uid>')
