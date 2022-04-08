@@ -6,10 +6,12 @@ from flask import Blueprint, abort, request
 
 from service import schemas
 from service.repos.measurements import MeasurementsRepo
+from service.repos.trials import TrialsRepo
 
 measurement_view = Blueprint('measurement_view', __name__)
 
 repo = MeasurementsRepo()
+trials_repo = TrialsRepo()
 
 
 @measurement_view.get('/')
@@ -26,6 +28,18 @@ def get_measurement_by_id(uid: int):
         return {'message': 'measurement not found'}, HTTPStatus.NOT_FOUND
     measurement = schemas.Measurement.from_orm(entity)
     return orjson.dumps(measurement.dict()), HTTPStatus.OK
+
+
+@measurement_view.get('/<uid>/trials')
+def get_trials_by_measure_id(uid: int):
+    entity_measure = repo.get_by_uid(uid)
+    if not entity_measure:
+        return {'message': 'measurement not found'}, HTTPStatus.NOT_FOUND
+    entities_trials = trials_repo.get_by_measure_id(uid)
+    if not entities_trials:
+        return {'message': 'trials not found'}, HTTPStatus.NOT_FOUND
+    trials = [schemas.Trial.from_orm(entity_trials).dict() for entity_trials in entities_trials]
+    return orjson.dumps(trials), HTTPStatus.OK
 
 
 @measurement_view.post('/')

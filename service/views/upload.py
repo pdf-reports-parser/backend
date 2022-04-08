@@ -11,6 +11,7 @@ extractor = Extractor()
 upload_dir = Path('tmp')
 upload_dir.mkdir(exist_ok=True, parents=True)
 
+
 @upload.post('/')
 def download_file():
     upload_file = upload_dir / 'report.pdf'
