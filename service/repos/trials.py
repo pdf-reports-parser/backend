@@ -62,6 +62,9 @@ class TrialsRepo:
             raise NotFoundError('trial')
         return trial
 
+    def get_for_measurement(self, measure_id: int) -> list[Trials]:
+        return Trials.query.filter(Trials.measure_id == measure_id).all()
+
     def delete(self, uid: int) -> None:
         trial = Trials.query.filter_by(uid=uid).first()
         if not trial:
