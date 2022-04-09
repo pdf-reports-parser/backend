@@ -27,7 +27,7 @@ def create_app():
 
     app.register_blueprint(trial_view, url_prefix='/api/v1/trials')
     app.register_blueprint(measurement_view, url_prefix='/api/v1/measurements')
-    app.register_blueprint(upload, url_prefix='/api/v1/upload')
+    app.register_blueprint(upload, url_prefix='/api/v1/measurements/upload')
 
     app.register_error_handler(HTTPException, handle_http_exceptions)
     app.register_error_handler(AppError, handle_app_error)
