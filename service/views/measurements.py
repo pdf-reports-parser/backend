@@ -30,15 +30,10 @@ def get_measurement_by_id(uid: int):
     return orjson.dumps(measurement.dict()), HTTPStatus.OK
 
 
-@measurement_view.get('/<uid>/trials')
+@measurement_view.get('/<uid>/trials/')
 def get_trials_by_measure_id(uid: int):
-    entity_measure = repo.get_by_uid(uid)
-    if not entity_measure:
-        return {'message': 'measurement not found'}, HTTPStatus.NOT_FOUND
-    entities_trials = trials_repo.get_by_measure_id(uid)
-    if not entities_trials:
-        return {'message': 'trials not found'}, HTTPStatus.NOT_FOUND
-    trials = [schemas.Trial.from_orm(entity_trials).dict() for entity_trials in entities_trials]
+    entities = trials_repo.get_for_measurement(uid)
+    trials = [schemas.Trial.from_orm(entity).dict() for entity in entities]
     return orjson.dumps(trials), HTTPStatus.OK
 
 
