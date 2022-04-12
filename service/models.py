@@ -11,7 +11,7 @@ class Trials(Base):
     unit = Column(String)
     value = Column(String)
     subject = Column(String)
-    measure_id = Column(Integer, ForeignKey('measurements.uid'))
+    measure_id = Column(Integer, ForeignKey('measurements.uid'), nullable=False)
 
     def as_dict(self):
         return {col.name: getattr(self, col.name) for col in self.__table__.columns}

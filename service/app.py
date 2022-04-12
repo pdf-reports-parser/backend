@@ -4,10 +4,14 @@ from flask import Flask
 from pydantic import ValidationError
 from werkzeug.exceptions import HTTPException
 
+from service import config
+from service.db import db_session
 from service.errors import AppError
 from service.views.measurements import measurement_view
 from service.views.trials import trial_view
 from service.views.upload import upload
+
+app_config = config.load_from_env()
 
 
 def handle_http_exceptions(error: HTTPException):
@@ -22,8 +26,13 @@ def handle_validation_error(error: ValidationError):
     return error.json(), HTTPStatus.BAD_REQUEST
 
 
+def shutdown_session(exception=None):
+    db_session.remove()
+
+
 def create_app():
     app = Flask(__name__)
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = app_config.track_modifications
 
     app.register_blueprint(trial_view, url_prefix='/api/v1/trials')
     app.register_blueprint(measurement_view, url_prefix='/api/v1/measurements')
@@ -32,5 +41,7 @@ def create_app():
     app.register_error_handler(HTTPException, handle_http_exceptions)
     app.register_error_handler(AppError, handle_app_error)
     app.register_error_handler(ValidationError, handle_validation_error)
+
+    app.teardown_appcontext(shutdown_session)
 
     return app
