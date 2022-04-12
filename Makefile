@@ -31,3 +31,12 @@ stop:
 
 clean:
 	@docker-compose down
+
+db.makemigration:
+	@alembic revision --autogenerate -m "${message}"
+
+db.migrate:
+	@alembic upgrade head
+
+alembic:
+	@alembic ${command}
