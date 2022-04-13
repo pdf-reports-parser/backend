@@ -40,3 +40,6 @@ db.migrate:
 
 alembic:
 	@alembic ${command}
+
+gunicorn:
+	@gunicorn -w 4 -b 0.0.0.0:5000 'service.app:create_app()'

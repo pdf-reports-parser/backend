@@ -11,4 +11,4 @@ RUN poetry install --no-dev
 
 COPY service /app/service
 
-CMD ["python", "-m", "service", "run"]
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "service.app:create_app()"]
