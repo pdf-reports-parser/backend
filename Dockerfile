@@ -10,5 +10,6 @@ COPY poetry.lock pyproject.toml /app/
 RUN poetry install --no-dev
 
 COPY service /app/service
+COPY migrations /app/migrations
 
 CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "service.app:create_app()"]
